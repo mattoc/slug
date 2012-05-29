@@ -28,3 +28,8 @@ class TestLogin(django.test.TestCase):
                                          password='password')
         self.assertTrue(login_status)
 
+    def test_nonadmin_invalid_login(self):
+        """Verify that a user with invalid credentials cannot log in."""
+        login_status = self.client.login(username='existing',
+                                         password='invalid_password')
+        self.assertFalse(login_status)
