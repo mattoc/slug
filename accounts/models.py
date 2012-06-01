@@ -76,7 +76,7 @@ class UserEmail(models.Model):
     )
 
     verified_on = models.DateTimeField(null=True, blank=True)
-    verified_by = models.CharField(max_length=1 choices=VERIFIED_BY_CHOICES)
+    verified_by = models.CharField(max_length=1, choices=VERIFIED_BY_CHOICES)
 
     verification_key = models.CharField(max_length=40)
 
@@ -93,7 +93,7 @@ post_save.connect(create_user_profile, sender=User)
 
 def mark_email_as_verified_on_activation(sender, user, request, **kwargs):
     pass
-signals.user_activated.connect(verify_email_on_activation)
+signals.user_activated.connect(mark_email_as_verified_on_activation)
 
 def merge_on_activation(sender, user, request, **kwargs):
     pass
