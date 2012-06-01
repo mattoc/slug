@@ -89,8 +89,8 @@ class UserEmail(models.Model):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
-        UserEmail.objects.create(user=instance)
+        primary_email = UserEmail.objects.create(user=instance)
+        UserProfile.objects.create(user=instance, primary=primary_email)
 post_save.connect(create_user_profile, sender=User)
 
 
