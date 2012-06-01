@@ -18,12 +18,12 @@ urlpatterns = patterns(
     'accounts',
 
     url(r'login/*$', auth_views.login,
-	    {'template_name': 'login.html',
+        {'template_name': 'login.html',
          'authentication_form': login_forms.AuthenticationWithInActiveForm,
          'extra_context': {
             'register_form': register_forms.RegistrationFormUniqueEmail(),
-	        'providers': PROVIDERS,
-    	    'openid_providers': OPENID_PROVIDERS,
+            'providers': PROVIDERS,
+            'openid_providers': OPENID_PROVIDERS,
             },
         }),
 
