@@ -3,9 +3,15 @@
 # -*- coding: utf-8 -*-
 # vim: set ts=4 sw=4 et sts=4 ai:
 
-from django.contrib import admin
-from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import post_save
+
+from registration import signals
+from registration.models import RegistrationManager
+
+from accounts import merge
 
 
 ## Registration
@@ -81,9 +87,6 @@ class UserEmail(models.Model):
     verification_key = models.CharField(max_length=40)
 
 
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
@@ -113,7 +116,7 @@ def verify_user(backend, user, details, **kw):
         user.is_active = True
         user.save()
     else:
-        rego = registration.models.RegistrationManager.create_profile(user)
+        rego = RegistrationManager.create_profile(user)
         rego.send_verify_email()
 
 
